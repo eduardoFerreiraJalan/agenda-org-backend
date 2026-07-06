@@ -7,8 +7,8 @@ import jwt from 'jsonwebtoken';
 import mongoose, { Schema } from 'mongoose';
 import morgan from 'morgan';
 import multer from 'multer';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+import helmetModule from 'helmet';
+import { rateLimit } from 'express-rate-limit';
 import nodemailer from 'nodemailer';
 import PDFDocument from 'pdfkit';
 import { z, ZodError } from 'zod';
@@ -23,6 +23,9 @@ const roles = [
   'Gestor/GERES',
   'Usuário Autenticado'
 ] as const;
+
+type HelmetFactory = typeof import('helmet')['default'];
+const helmet = ((helmetModule as unknown as { default?: HelmetFactory }).default ?? helmetModule) as HelmetFactory;
 
 type Role = (typeof roles)[number];
 
